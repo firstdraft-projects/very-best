@@ -89,12 +89,12 @@
       <tr>
         <th>Name</th>
         <th>Cuisine</th>
+        <th>Venue</th>
         <th>Actions</th>
       </tr>
 
       <% @dishes.each do |dish| %>
       <tr>
-        
         <td>
           <% if dish.name.present? %>
             <a href="/dishes/<%= dish.id %>">
@@ -109,6 +109,16 @@
             </a>
           <% end %>
         </td>
+        <td>
+          <% if dish.specialists.present? %>
+          <% dish.specialists.each do |venue| %>
+            <a href="/venues/<%= venue.id %>">
+              <%= venue.name %>
+            </a>
+          <% end %>
+          <% end %>
+        </td>
+
         <td>
           <a href="/dishes/<%= dish.id %>" class="btn btn-primary">Show</a>
           <a href="/dishes/<%= dish.id %>/edit" class="btn btn-warning">Edit</a>

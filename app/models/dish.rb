@@ -9,6 +9,7 @@ class Dish < ApplicationRecord
 
   # Indirect associations
 
+
   has_many   :specialists,
              :through => :bookmarks,
              :source => :venue
@@ -16,6 +17,7 @@ class Dish < ApplicationRecord
   has_many   :fans,
              :through => :bookmarks,
              :source => :user
+
 
   # Validations
 

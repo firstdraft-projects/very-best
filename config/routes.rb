@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  # Routes for Homepage link to /dishes:
+  # Routes for Homepage link to /dishes page:
   root "dishes#index"
 
   # Routes for the Bookmark resource:
