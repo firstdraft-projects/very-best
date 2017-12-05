@@ -117,11 +117,7 @@
         </td>
         <td>
           <% if dish.specialists.present? %>
-          <% dish.specialists.each do |venue| %>
-            <a href="/venues/<%= venue.id %>">
-              <%= venue.name %>
-            </a>
-          <% end %>
+          <%= select_tag(:venue_id, options_from_collection_for_select(Venue.all, :id, :name, dish.specialists), :class => "form-control") %>
           <% end %>
         </td>
 
