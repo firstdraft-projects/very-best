@@ -3,7 +3,8 @@
     Dishes
     <a href="/dishes/new" class="btn btn-lg btn-success">New Dish</a>
   </h1>
-</div><div class="row mb-1">
+</div>
+  <div class="row mb-1">
   <div class="col-md-12">
     <%= search_form_for @q, :class => "collapse", :id => "dishes_filters" do |f| %>
       <p class="lead">Narrow results:</p>
@@ -116,7 +117,13 @@
           <% end %>
         </td>
         <td>
-        <%= select_tag(Venue.name, options_from_collection_for_select(Venue.all, :id, :name, @bookmarks), :class => "form-control") %>
+          <% if dish.specialists.present? %>
+            <% dish.specialists.each do |venue| %>
+              <a href="/venues/<%= venue.id %>">
+                <p><%= venue.name %></p>
+              </a>
+          <% end %>
+          <% end %>
         </td>
         <td>
           <a href="/dishes/<%= dish.id %>" class="btn btn-primary">Show</a>
@@ -126,7 +133,10 @@
       </tr>
       <% end %>
     </table>
-    <a href="/venues/new" class="btn btn-lg btn-success">New Venue</a>
-    <%= paginate @dishes, theme: 'twitter-bootstrap-4' %>
+  <%= paginate @dishes, theme: 'twitter-bootstrap-4' %>
+
+  <div>
+    <h3>
+      Add Venue <a href="/venues/new" class="btn btn-lg btn-success">New Venue</a>
+    </h3>
   </div>
-</div>
