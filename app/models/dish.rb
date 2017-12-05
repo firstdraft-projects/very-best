@@ -8,7 +8,7 @@ class Dish < ApplicationRecord
              :counter_cache => true
 
   # Indirect associations
-
+  
 
   has_many   :specialists,
              :through => :bookmarks,

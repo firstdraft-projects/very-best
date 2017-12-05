@@ -2,11 +2,31 @@ class DishesController < ApplicationController
   def index
     @q = Dish.ransack(params[:q])
     @dishes = @q.result(:distinct => true).includes(:cuisine, :bookmarks, :fans, :specialists).page(params[:page]).per(10)
-    render("dishes/index.html.erb")
 
-    
-    
+    @bookmark = Bookmark.new
+
+
+    @bookmark.dish_id = params[:dish_id]
+    @bookmark.venue_id = params[:venue_id]
+    @bookmark.user_id = params[:user_id]
+    @bookmark.notes = params[:notes]
+
+    save_status = @bookmark.save
+
+    if save_status == true
+      referer = URI(request.referer).path
+
+      case referer
+      when "/bookmarks/new", "/create_bookmark"
+        redirect_to("/bookmarks")
+      else
+        redirect_back(:fallback_location => "/", :notice => "Bookmark created successfully.")
+      end
+    end
+      
+    render("dishes/index.html.erb")
   end
+
 
   def show
     @bookmark = Bookmark.new

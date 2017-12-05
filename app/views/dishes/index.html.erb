@@ -116,11 +116,8 @@
           <% end %>
         </td>
         <td>
-          <% if dish.specialists.present? %>
-          <%= select_tag(:venue_id, options_from_collection_for_select(Venue.all, :id, :name, dish.specialists), :class => "form-control") %>
-          <% end %>
+        <%= select_tag(Venue.name, options_from_collection_for_select(Venue.all, :id, :name, @bookmarks), :class => "form-control") %>
         </td>
-
         <td>
           <a href="/dishes/<%= dish.id %>" class="btn btn-primary">Show</a>
           <a href="/dishes/<%= dish.id %>/edit" class="btn btn-warning">Edit</a>
