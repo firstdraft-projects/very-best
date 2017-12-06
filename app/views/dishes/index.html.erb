@@ -99,9 +99,8 @@
         <th>Venue</th>
         <th>Actions</th>
       </tr>
-
-      <% @dishes.each do |dish| %>
       <tr>
+        <% @dishes.each do |dish| %>
         <td>
           <% if dish.name.present? %>
             <a href="/dishes/<%= dish.id %>">
@@ -112,19 +111,39 @@
         <td>
           <% if dish.cuisine.present? %>
             <a href="/cuisines/<%= dish.cuisine.id %>">
-              <%= dish.cuisine.name %>
-            </a>
+              <%= dish.cuisine.name %> 
           <% end %>
         </td>
+        
         <td>
           <% if dish.specialists.present? %>
-            <% dish.specialists.each do |venue| %>
-              <a href="/venues/<%= venue.id %>">
-                <p><%= venue.name %></p>
-              </a>
+          <% dish.specialists.each do |venue| %>
+            <a href="/venues/<%= venue.id %>">
+              <%= venue.name %></a>
           <% end %>
+          
+          <% else %>
+          
+          <form action="/create_bookmark" method="post">
+          <!-- Hidden input for authenticity token to protect from forgery -->
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+          <!-- Label and input for dish_id -->
+            <input type="hidden" name="dish_id" value="<%= dish.id %>">
+  
+          <!-- Label and input for venue_id -->
+            <%= select_tag(:venue_id, options_from_collection_for_select(Venue.all.sort_by {|venue| venue.name}, :id, :name, @bookmark.venue_id), prompt:"Choose a venue...", :class => "form-control input-sm") %>
+
+          <!-- Label and input for user_id -->
+            <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+              <button class="btn btn-primary btn-sm">
+                <i class="fa fa-heart"></i>
+              </button>
+          </form>
           <% end %>
         </td>
+
         <td>
           <a href="/dishes/<%= dish.id %>" class="btn btn-primary">Show</a>
           <a href="/dishes/<%= dish.id %>/edit" class="btn btn-warning">Edit</a>
@@ -133,7 +152,10 @@
       </tr>
       <% end %>
     </table>
-  <%= paginate @dishes, theme: 'twitter-bootstrap-4' %>
+    
+    <%= paginate @dishes, theme: 'twitter-bootstrap-4' %>
+  </div>
+</div>
 
   <div>
     <h3>
